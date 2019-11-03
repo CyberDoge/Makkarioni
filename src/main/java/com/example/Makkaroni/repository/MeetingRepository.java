@@ -11,5 +11,6 @@ import java.util.List;
 public interface MeetingRepository extends MongoRepository<Meeting, String> {
     public Meeting findMeetingById(String id);
     public List<Meeting> findAll();
-//    public List<Meeting> findAllByStartDateLessThanEqualAndEndDateGreaterThanEqual(Date startDate, Date endDate);
+    public List<Meeting> findAllByDateLessThanEqualAndDateGreaterThanEqual(Date startDate, Date endDate);
+    public List<Meeting> findAllByDateBetween(Date startDate, Date endDate);
 }

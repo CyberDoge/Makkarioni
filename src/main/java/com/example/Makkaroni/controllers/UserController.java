@@ -2,19 +2,17 @@ package com.example.Makkaroni.controllers;
 
 import com.example.Makkaroni.models.User;
 import com.example.Makkaroni.repository.UserRepository;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
 @RestController
 public class UserController {
     private final UserRepository userRepository;
-    private final HttpSession httpSession;
-    public UserController(UserRepository userRepository, HttpSession httpSession) {
+
+    public UserController(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.httpSession = httpSession;
     }
 
     @PostMapping(path = {"/api/users/", "/register"})
@@ -30,9 +28,10 @@ public class UserController {
         return userRepository.findUserByUsername(username).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping(path = "/api/users/{username}")
-    public ResponseEntity getUserByUsername(@PathVariable("username") String username) {
-        return userRepository.findUserByUsername(username)
+    @GetMapping(path = "/api/users/{id}")
+    public @JsonIgnoreProperties(value = "username")
+    ResponseEntity getUserById(@PathVariable("id") String id) {
+        return userRepository.findUserById(id)
                 .map(ResponseEntity::ok).orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 }

@@ -1,17 +1,12 @@
 package com.example.Makkaroni.filters;
 
-import com.example.Makkaroni.models.User;
 import com.example.Makkaroni.repository.UserRepository;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Optional;
 
 @Component
 public class AuthFilter implements Filter {
@@ -38,7 +33,7 @@ public class AuthFilter implements Filter {
         }
 
         userRepository.findUserByUsername(req.getHeader("username"))
-                .ifPresent(user->req.getSession().setAttribute("user", user));
+                .ifPresent(user -> req.getSession().setAttribute("user", user));
         filterChain.doFilter(servletRequest, servletResponse);
     }
 

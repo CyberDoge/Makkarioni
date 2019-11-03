@@ -3,12 +3,15 @@ package com.example.Makkaroni.controllers;
 import com.example.Makkaroni.models.Meeting;
 import com.example.Makkaroni.models.User;
 import com.example.Makkaroni.repository.MeetingRepository;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @RestController()
@@ -51,7 +54,18 @@ public class MeetingController {
     public ResponseEntity joinToMeeting(@PathVariable String id, HttpSession session) {
         Meeting dbMeeting = meetingRepository.findMeetingById(id);
         if (dbMeeting == null) return ResponseEntity.notFound().build();
-        dbMeeting.getUsers().add(((User) session.getAttribute("user")).getUsername());
+        dbMeeting.getUsers().add(((User) session.getAttribute("user")).getId());
+        meetingRepository.save(dbMeeting);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(path = "/api/meetings/between")
+    public List<Meeting> getMeetingsBetween(
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(endDate);
+        calendar.add(Calendar.HOUR_OF_DAY, 24);
+        return meetingRepository.findAllByDateBetween(startDate, calendar.getTime());
     }
 }

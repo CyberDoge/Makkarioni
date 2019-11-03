@@ -1,5 +1,6 @@
 package com.example.Makkaroni.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.HttpClientErrorException;
@@ -9,6 +10,7 @@ import java.util.stream.Stream;
 public class User {
     @Id
     private String id;
+    @JsonIgnore
     private String username;
     private String firstName;
     private String lastName;

@@ -11,11 +11,14 @@ public class Meeting {
     private Date date;
     private List<String> users;
     private float[] coordinates;
-
     public Meeting(Date date, List<String> users, float... coordinates) {
         this.date = date;
         this.users = users;
         this.coordinates = coordinates;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public Date getDate() {
