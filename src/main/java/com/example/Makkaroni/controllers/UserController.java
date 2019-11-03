@@ -6,12 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class UserController {
     private final UserRepository userRepository;
-
-    public UserController(UserRepository userRepository) {
+    private final HttpSession httpSession;
+    public UserController(UserRepository userRepository, HttpSession httpSession) {
         this.userRepository = userRepository;
+        this.httpSession = httpSession;
     }
 
     @PostMapping(path = {"/api/users/", "/register"})

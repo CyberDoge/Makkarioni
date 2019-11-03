@@ -7,12 +7,12 @@ import java.util.List;
 
 public class Meeting {
     @Id
-    public String id;
+    private String id;
     private Date date;
-    private List<Integer> users;
+    private List<String> users;
     private float[] coordinates;
 
-    public Meeting(Date date, List<Integer> users, float... coordinates) {
+    public Meeting(Date date, List<String> users, float... coordinates) {
         this.date = date;
         this.users = users;
         this.coordinates = coordinates;
@@ -26,7 +26,16 @@ public class Meeting {
         return coordinates;
     }
 
-    public List<Integer> getUsers() {
+    public List<String> getUsers() {
         return users;
+    }
+
+    public void updateMeeting(Meeting meeting) {
+        if (meeting.users != null)
+            this.users = meeting.users;
+        if (meeting.coordinates != null)
+            this.coordinates = meeting.coordinates;
+        if (meeting.date != null)
+            this.date = meeting.date;
     }
 }
